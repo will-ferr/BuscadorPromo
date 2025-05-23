@@ -1,0 +1,101 @@
+<div class="container">
+  <div class="search-container">
+    <div class="search-form">
+      <input type="text" [formControl]="termoBusca" (keyup.enter)="buscarProdutos()" placeholder="Buscar produtos...">
+      <select [(ngModel)]="categoriaSelecionada">
+        <option value="">Todas as categorias</option>
+        <option *ngFor="let categoria of categorias" [value]="categoria.id">
+          {{ categoria.name }}
+        </option>
+      </select>
+      <button (click)="buscarProdutos()">Buscar</button>
+    </div>
+  </div>
+
+  <!-- Seção de Promoções -->
+  <div class="section-title">
+    <h2>Promoções Especiais</h2>
+  </div>
+  <div class="products-grid">
+    <div class="product-card promotion-card" *ngFor="let produto of promocoes">
+      <div class="discount-badge">
+        <span>{{ produto.discount }}% OFF</span>
+      </div>
+      <img [src]="produto.thumbnail" [alt]="produto.title" class="product-image">
+      <h3>{{ produto.title }}</h3>
+      <div class="price-container">
+        <p class="original-price">R$ {{ produto.originalPrice | number:'1.2-2' }}</p>
+        <p class="product-price">R$ {{ produto.price.amount | number:'1.2-2' }}</p>
+      </div>
+      <button (click)="adicionarAoCarrinho(produto)" class="promotion-button">Adicionar ao Carrinho</button>
+    </div>
+  </div>
+
+  <!-- Resultados da Busca -->
+  <div class="section-title">
+    <h2>Resultados da Busca</h2>
+  </div>
+  <div class="products-grid" *ngIf="produtos.length > 0">
+    <div class="product-card" *ngFor="let produto of produtos">
+      <img [src]="produto.thumbnail" [alt]="produto.title" class="product-image">
+      <h3>{{ produto.title }}</h3>
+      <p class="product-price">R$ {{ produto.price.amount | number:'1.2-2' }}</p>
+      <button (click)="adicionarAoCarrinho(produto)">Adicionar ao Carrinho</button>
+    </div>
+  </div>
+
+  <!-- Cards de exemplo quando não há resultados ou não foi feita busca -->
+  <div class="products-grid example-products" *ngIf="produtos.length === 0">
+    <div class="product-card example-card">
+      <div class="featured-tag">Mega Oferta</div>
+      <img src="https://cdn.pixabay.com/photo/2018/09/17/14/27/headphones-3683983_1280.jpg" alt="Fone de Ouvido Bluetooth ProSound X900" class="product-image">
+      <h3>Fone de Ouvido Bluetooth ProSound X900</h3>
+      <div class="price-container">
+        <p class="original-price">R$ 349,90</p>
+        <p class="product-price">R$ 219,90</p>
+      </div>
+      <div class="product-features">
+        <span class="feature">Bluetooth 5.2</span>
+        <span class="feature">Noise Cancelling</span>
+        <span class="feature">40h Bateria</span>
+      </div>
+      <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+    </div>
+    
+    <div class="product-card example-card">
+      <div class="featured-tag">Exclusivo</div>
+      <img src="https://cdn.pixabay.com/photo/2015/06/25/17/22/smart-watch-821559_1280.jpg" alt="Smartwatch FitPro Premium Edition" class="product-image">
+      <h3>Smartwatch FitPro Premium Edition</h3>
+      <div class="price-container">
+        <p class="original-price">R$ 899,90</p>
+        <p class="product-price">R$ 649,90</p>
+      </div>
+      <div class="product-features">
+        <span class="feature">Monitor Cardíaco</span>
+        <span class="feature">GPS</span>
+        <span class="feature">IP68</span>
+      </div>
+      <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+    </div>
+    
+    <div class="product-card example-card">
+      <div class="featured-tag">Lançamento</div>
+      <img src="https://cdn.pixabay.com/photo/2021/09/07/07/11/game-console-6603120_1280.jpg" alt="Console GameMax Ultra 4K" class="product-image">
+      <h3>Console GameMax Ultra 4K</h3>
+      <div class="price-container">
+        <p class="original-price">R$ 4.499,90</p>
+        <p class="product-price">R$ 3.699,90</p>
+      </div>
+      <div class="product-features">
+        <span class="feature">1TB SSD</span>
+        <span class="feature">Ray Tracing</span>
+        <span class="feature">2 Controles</span>
+      </div>
+      <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+    </div>
+  </div>
+
+  <div class="no-results" *ngIf="produtos.length === 0 && termoBusca.value">
+    <p>Nenhum produto encontrado para a busca "{{ termoBusca.value }}". Veja algumas sugestões abaixo:</p>
+  </div>
+</div>

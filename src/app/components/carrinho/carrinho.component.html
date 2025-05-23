@@ -1,0 +1,68 @@
+<div class="carrinho-page-container">
+  <div class="carrinho-content">
+    <div class="carrinho-header">
+      <div class="carrinho-title">
+        <h2>Meu <span class="accent">Carrinho</span></h2>
+        <p class="carrinho-subtitle">Confira seus produtos selecionados</p>
+      </div>
+      <button (click)="voltarParaHome()" class="back-button">
+        <i class="icon-back">←</i> Continuar comprando
+      </button>
+    </div>
+
+    <div class="carrinho-vazio" *ngIf="produtos.length === 0">
+      <div class="empty-cart-icon">🛒</div>
+      <h3>Seu carrinho está vazio</h3>
+      <p>Adicione produtos ao seu carrinho para vê-los aqui</p>
+      <button (click)="voltarParaHome()" class="shop-now-btn">Explorar Promoções</button>
+    </div>
+
+    <div class="carrinho-container" *ngIf="produtos.length > 0">
+      <div class="carrinho-items-header">
+        <span class="col product-col">Produto</span>
+        <span class="col price-col">Preço</span>
+        <span class="col action-col">Ação</span>
+      </div>
+
+      <div class="carrinho-items-list">
+        <div class="carrinho-item" *ngFor="let produto of produtos">
+          <div class="col product-col">
+            <div class="product-info">
+              <img [src]="produto.thumbnail" [alt]="produto.title" class="carrinho-image">
+              <h3>{{ produto.title }}</h3>
+            </div>
+          </div>
+          <div class="col price-col">
+            <p class="carrinho-price">R$ {{ produto.price.amount | number:'1.2-2' }}</p>
+          </div>
+          <div class="col action-col">
+            <button (click)="removerProduto(produto.id)" class="remover-btn">
+              <i class="icon-trash">🚮</i> Remover
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="carrinho-summary">
+        <div class="summary-row">
+          <span>Subtotal:</span>
+          <span>R$ {{ total | number:'1.2-2' }}</span>
+        </div>
+        <div class="summary-row">
+          <span>Frete:</span>
+          <span>Grátis</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total:</span>
+          <span>R$ {{ total | number:'1.2-2' }}</span>
+        </div>
+
+        <button class="finalizar-btn">
+          <i class="icon-checkout">💳</i> Finalizar Compra
+        </button>
+
+        <p class="secure-checkout">Pagamento 100% seguro <i class="icon-lock">🔒</i></p>
+      </div>
+    </div>
+  </div>
+</div>

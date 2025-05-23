@@ -1,0 +1,56 @@
+<div class="cadastro-page-container">
+  <div class="cadastro-content">
+    <div class="cadastro-card">
+      <div class="cadastro-header">
+        <h2>Criar <span class="accent">Conta</span></h2>
+        <p class="cadastro-subtitle">Cadastre-se para aproveitar todas as promoções</p>
+      </div>
+
+      <form (submit)="cadastrar()">
+        <div class="form-group">
+          <div class="input-icon">
+            <i class="icon-user">👤</i>
+            <input type="text" id="nome" [(ngModel)]="nome" name="nome" placeholder="Digite seu nome completo" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-icon">
+            <i class="icon-email">✉️</i>
+            <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Digite seu email" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-icon">
+            <i class="icon-lock">🔒</i>
+            <input type="password" id="senha" [(ngModel)]="senha" name="senha" placeholder="Crie uma senha forte" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-icon">
+            <i class="icon-lock">🔓</i>
+            <input type="password" id="confirmar-senha" [(ngModel)]="confirmarSenha" name="confirmarSenha" placeholder="Confirme sua senha" required>
+          </div>
+        </div>
+
+        <div class="error-message" *ngIf="mensagemErro">
+          <i class="icon-alert">⚠️</i>
+          {{ mensagemErro }}
+        </div>
+
+        <div class="terms-policy">
+          <p>Ao se cadastrar, você concorda com nossos <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a></p>
+        </div>
+
+        <button type="submit" class="cadastro-button">Criar Conta</button>
+      </form>
+
+      <div class="cadastro-footer">
+        <p>Já tem conta? <a routerLink="/login">Faça login</a></p>
+        <button (click)="voltarParaLogin()" class="back-button">Voltar para Login</button>
+      </div>
+    </div>
+  </div>
+</div>
