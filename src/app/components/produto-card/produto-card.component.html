@@ -1,0 +1,66 @@
+<div class="produto-card">
+  <div class="imagem-container">
+    <img [src]="produto.thumbnail" [alt]="produto.title" class="produto-imagem" 
+         (error)="imagemErro()" 
+         [class.imagem-loading]="loading">
+    <div class="etiqueta-promocao" *ngIf="produto.discount">
+      <span>{{ produto.discount }}% OFF</span>
+    </div>
+    <div class="loading-spinner" *ngIf="loading">
+      <i class="fas fa-spinner fa-spin"></i>
+    </div>
+    <div class="imagem-error" *ngIf="erroImagem">
+      <i class="fas fa-image"></i>
+    </div>
+  </div>
+
+  <div class="produto-info">
+    <h3 class="produto-titulo">
+      <a [href]="produto.permalink" target="_blank" rel="noopener noreferrer">
+        {{ produto.title }}
+      </a>
+    </h3>
+
+    <div class="preco-container">
+      <div class="mensagem-erro" *ngIf="erroPreco">
+        <i class="fas fa-exclamation-circle"></i>
+        {{ erroPreco.mensagem }}
+      </div>
+      <div class="preco-atual" *ngIf="!erroPreco">
+        <span class="preco-simbolo">R$</span>
+        <span class="preco-valor">{{ produto.price.amount | number:'1.2-2' }}</span>
+      </div>
+      <div class="preco-original" *ngIf="!erroPreco && produto.originalPrice && produto.originalPrice > produto.price.amount">
+        <span class="preco-simbolo">R$</span>
+        <span class="preco-valor">{{ produto.originalPrice | number:'1.2-2' }}</span>
+      </div>
+      <div class="desconto" *ngIf="!erroPreco && produto.discount">
+        <span>{{ produto.discount }}% OFF</span>
+      </div>
+    </div>
+
+    <div class="condicoes">
+      <div class="condicao" *ngIf="produto.condition">
+        <i class="fas fa-box"></i>
+        {{ produto.condition === 'new' ? 'Novo' : 'Usado' }}
+      </div>
+      <div class="frete" *ngIf="produto.freeShipping">
+        <i class="fas fa-truck"></i>
+        Frete grátis
+      </div>
+      <div class="parcelamento" *ngIf="produto.installments && produto.installments.quantity > 1">
+        <i class="fas fa-credit-card"></i>
+        {{ produto.installments.quantity }}x de R$ {{ produto.installments.amount | number:'1.2-2' }}
+      </div>
+      <div class="estoque" *ngIf="produto.available_quantity > 0">
+        <i class="fas fa-check-circle"></i>
+        {{ produto.available_quantity }} em estoque
+      </div>
+    </div>
+
+    <button class="botao-comprar" (click)="adicionarAoCarrinho()">
+      <i class="fas fa-shopping-cart"></i>
+      Adicionar ao Carrinho
+    </button>
+  </div>
+</div>

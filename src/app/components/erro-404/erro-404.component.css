@@ -1,0 +1,45 @@
+.erro-container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+}
+
+.erro-content {
+  text-align: center;
+  padding: 2rem;
+}
+
+.erro-content h1 {
+  font-size: 10rem;
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+.erro-content h2 {
+  font-size: 2.5rem;
+  color: #343a40;
+  margin-bottom: 1rem;
+}
+
+.erro-content p {
+  font-size: 1.2rem;
+  color: #6c757d;
+  margin-bottom: 2rem;
+}
+
+.btn-voltar {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-voltar:hover {
+  background-color: #0056b3;
+}

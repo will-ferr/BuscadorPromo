@@ -1,0 +1,92 @@
+<div class="confirmacao-page">
+  <!-- Carregando -->
+  <div *ngIf="carregando" class="carregando">
+    <div class="spinner"></div>
+    <p>Processando seu pedido...</p>
+  </div>
+
+  <!-- Erro -->
+  <div *ngIf="erro && !carregando" class="erro">
+    <div class="erro-icon">⚠️</div>
+    <h2>Ocorreu um erro</h2>
+    <p>{{ erro }}</p>
+    <button (click)="voltarParaHome()" class="btn-voltar">Voltar para a página inicial</button>
+  </div>
+
+  <!-- Pedido confirmado -->
+  <div *ngIf="pedido && !carregando" class="pedido-confirmado">
+    <div class="confirmacao-header">
+      <div class="icone-sucesso">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="#4CAF50"/>
+        </svg>
+      </div>
+      <h1>Compra realizada com sucesso!</h1>
+      <p class="numero-pedido">Número do pedido: <strong>{{ pedido.numeroPedido }}</strong></p>
+      <p class="mensagem">Obrigado por comprar conosco! Seu pedido foi confirmado e já está sendo processado.</p>
+    </div>
+
+    <div class="detalhes-pedido">
+      <div class="resumo-pedido">
+        <h2>Resumo do Pedido</h2>
+        <div class="itens-pedido">
+          <div *ngFor="let item of pedido.itens" class="item-pedido">
+            <img [src]="item.produto.thumbnail" [alt]="item.produto.title" class="produto-imagem">
+            <div class="detalhes-produto">
+              <h3>{{ item.produto.title }}</h3>
+              <p class="quantidade">Quantidade: {{ item.quantidade }}</p>
+              <p class="preco">{{ item.produto.price * item.quantidade | currency:'BRL' }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="total-pedido">
+          <div class="linha-total">
+            <span>Total:</span>
+            <span class="valor">{{ pedido.total | currency:'BRL' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="informacoes-entrega">
+        <h2>Informações de Entrega</h2>
+        <div class="endereco-entrega">
+          <p><strong>Endereço:</strong> {{ pedido.endereco.rua }}, {{ pedido.endereco.numero }}</p>
+          <p *ngIf="pedido.endereco.complemento"><strong>Complemento:</strong> {{ pedido.endereco.complemento }}</p>
+          <p><strong>Bairro:</strong> {{ pedido.endereco.bairro }}</p>
+          <p><strong>Cidade/UF:</strong> {{ pedido.endereco.cidade }}/{{ pedido.endereco.estado }}</p>
+          <p><strong>CEP:</strong> {{ pedido.endereco.cep }}</p>
+          <p><strong>Forma de pagamento:</strong> {{ formatarMetodoPagamento(pedido.endereco.pagamento) }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="acoes">
+      <button (click)="voltarParaHome()" class="btn-voltar-inicio">Voltar para o início</button>
+      <button class="btn-rastrear" (click)="$event.preventDefault()">Acompanhar pedido</button>
+    </div>
+
+    <div class="informacoes-adicionais">
+      <div class="info-box">
+        <div class="icone">📦</div>
+        <div class="texto">
+          <h3>Envio e Entrega</h3>
+          <p>Seu pedido será enviado em até 2 dias úteis. O prazo de entrega varia de acordo com sua localização.</p>
+        </div>
+      </div>
+      <div class="info-box">
+        <div class="icone">📧</div>
+        <div class="texto">
+          <h3>Confirmação por e-mail</h3>
+          <p>Enviamos um e-mail para você com todos os detalhes do seu pedido. Verifique sua caixa de entrada ou spam.</p>
+        </div>
+      </div>
+      <div class="info-box">
+        <div class="icone">📱</div>
+        <div class="texto">
+          <h3>Acompanhe seu pedido</h3>
+          <p>Você pode acompanhar o status do seu pedido a qualquer momento na seção "Meus Pedidos".</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

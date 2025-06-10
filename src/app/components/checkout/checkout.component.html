@@ -1,0 +1,294 @@
+<div class="checkout-page-container">
+  <div class="checkout-content">
+    <!-- Cabeçalho -->
+    <div class="checkout-header">
+      <h2>Finalizar <span class="accent">Compra</span></h2>
+      <p class="checkout-subtitle">Preencha os dados para finalizar seu pedido</p>
+    </div>
+
+    <!-- Mensagem de carregamento -->
+    <div *ngIf="carregando" class="mensagem-carregando">
+      <div class="loading-spinner"></div>
+      <p>Carregando seu carrinho...</p>
+    </div>
+
+    <!-- Mensagem de erro -->
+    <div *ngIf="mensagemErro && !carregando" class="mensagem-erro">
+      <p>{{ mensagemErro }}</p>
+    </div>
+
+    <!-- Conteúdo principal -->
+    <div *ngIf="!carregando && itens.length > 0" class="checkout-main">
+      <div class="checkout-form-container">
+        <!-- Formulário de entrega -->
+        <div class="form-section">
+          <h3><i class="icon-truck">🚚</i> Dados de Entrega</h3>
+          
+          <div class="form-group">
+            <label for="cep">CEP *</label>
+            <div class="input-with-button">
+              <input 
+                type="text" 
+                id="cep" 
+                name="cep" 
+                [(ngModel)]="endereco.cep" 
+                (blur)="buscarCep(endereco.cep)"
+                placeholder="00000-000" 
+                required>
+              <button type="button" (click)="buscarCep(endereco.cep)" class="btn-buscar">Buscar</button>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="rua">Rua *</label>
+              <input 
+                type="text" 
+                id="rua" 
+                name="rua" 
+                [(ngModel)]="endereco.rua" 
+                placeholder="Nome da rua" 
+                required>
+            </div>
+            
+            <div class="form-group">
+              <label for="numero">Número *</label>
+              <input 
+                type="text" 
+                id="numero" 
+                name="numero" 
+                [(ngModel)]="endereco.numero" 
+                placeholder="Nº" 
+                required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="complemento">Complemento</label>
+            <input 
+              type="text" 
+              id="complemento" 
+              name="complemento" 
+              [(ngModel)]="endereco.complemento" 
+              placeholder="Apto, bloco, etc.">
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="bairro">Bairro *</label>
+              <input 
+                type="text" 
+                id="bairro" 
+                name="bairro" 
+                [(ngModel)]="endereco.bairro" 
+                placeholder="Seu bairro" 
+                required>
+            </div>
+            
+            <div class="form-group">
+              <label for="cidade">Cidade *</label>
+              <input 
+                type="text" 
+                id="cidade" 
+                name="cidade" 
+                [(ngModel)]="endereco.cidade" 
+                placeholder="Sua cidade" 
+                required>
+            </div>
+            
+            <div class="form-group">
+              <label for="estado">Estado *</label>
+              <select 
+                id="estado" 
+                name="estado" 
+                [(ngModel)]="endereco.estado" 
+                required>
+                <option value="" disabled selected>UF</option>
+                <option *ngFor="let uf of ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO']" [value]="uf">
+                  {{ uf }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Forma de pagamento -->
+        <div class="form-section">
+          <h3><i class="icon-credit-card">💳</i> Pagamento</h3>
+          
+          <div class="payment-methods">
+            <label class="payment-method">
+              <input 
+                type="radio" 
+                name="pagamento" 
+                [(ngModel)]="endereco.pagamento" 
+                value="credito" 
+                checked>
+              <span class="payment-option">
+                <i class="icon-credit-card">💳</i>
+                <span>Cartão de Crédito</span>
+              </span>
+            </label>
+            
+            <label class="payment-method">
+              <input 
+                type="radio" 
+                name="pagamento" 
+                [(ngModel)]="endereco.pagamento" 
+                value="debito">
+              <span class="payment-option">
+                <i class="icon-debit-card">💳</i>
+                <span>Cartão de Débito</span>
+              </span>
+            </label>
+            
+            <label class="payment-method">
+              <input 
+                type="radio" 
+                name="pagamento" 
+                [(ngModel)]="endereco.pagamento" 
+                value="pix">
+              <span class="payment-option">
+                <i class="icon-pix">🏦</i>
+                <span>PIX</span>
+              </span>
+            </label>
+            
+            <label class="payment-method">
+              <input 
+                type="radio" 
+                name="pagamento" 
+                [(ngModel)]="endereco.pagamento" 
+                value="boleto">
+              <span class="payment-option">
+                <i class="icon-boleto">📄</i>
+                <span>Boleto Bancário</span>
+              </span>
+            </label>
+          </div>
+          
+          <!-- Campos adicionais para cartão -->
+          <div *ngIf="endereco.pagamento === 'credito' || endereco.pagamento === 'debito'" class="card-fields">
+            <div class="form-group">
+              <label for="cardNumber">Número do Cartão</label>
+              <input 
+                type="text" 
+                id="cardNumber" 
+                name="cardNumber" 
+                placeholder="0000 0000 0000 0000"
+                mask="0000 0000 0000 0000">
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="cardExpiry">Validade</label>
+                <input 
+                  type="text" 
+                  id="cardExpiry" 
+                  name="cardExpiry" 
+                  placeholder="MM/AA"
+                  mask="00/00">
+              </div>
+              
+              <div class="form-group">
+                <label for="cardCvv">CVV</label>
+                <input 
+                  type="text" 
+                  id="cardCvv" 
+                  name="cardCvv" 
+                  placeholder="000"
+                  mask="000">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="cardName">Nome no Cartão</label>
+              <input 
+                type="text" 
+                id="cardName" 
+                name="cardName" 
+                placeholder="Como está no cartão">
+            </div>
+            
+            <div *ngIf="endereco.pagamento === 'credito'" class="form-group">
+              <label for="installments">Parcelas</label>
+              <select id="installments" name="installments">
+                <option *ngFor="let parcela of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]" [value]="parcela">
+                  {{ parcela }}x de {{ (total / parcela) | currency:'BRL' }} {{ parcela > 1 ? 'sem juros' : '' }}
+                </option>
+              </select>
+            </div>
+          </div>
+          
+          <!-- Mensagem para PIX -->
+          <div *ngIf="endereco.pagamento === 'pix'" class="pix-info">
+            <p>Você será redirecionado para a página de pagamento PIX após confirmar o pedido.</p>
+          </div>
+          
+          <!-- Mensagem para boleto -->
+          <div *ngIf="endereco.pagamento === 'boleto'" class="boleto-info">
+            <p>O boleto será gerado após a confirmação do pedido e enviado para o seu e-mail.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Resumo do pedido -->
+      <div class="order-summary">
+        <h3>Resumo do Pedido</h3>
+        
+        <div class="order-items">
+          <div *ngFor="let item of itens" class="order-item">
+            <div class="item-image">
+              <img [src]="item.produto.thumbnail" [alt]="item.produto.title">
+              <span class="item-quantity">{{ item.quantidade }}x</span>
+            </div>
+            <div class="item-details">
+              <h4>{{ item.produto.title }}</h4>
+              <p class="item-price">{{ item.produto.price | currency:'BRL' }}</p>
+            </div>
+            <div class="item-subtotal">
+              {{ item.produto.price * item.quantidade | currency:'BRL' }}
+            </div>
+          </div>
+        </div>
+        
+        <div class="order-totals">
+          <div class="order-row">
+            <span>Subtotal</span>
+            <span>{{ total | currency:'BRL' }}</span>
+          </div>
+          <div class="order-row">
+            <span>Frete</span>
+            <span>Grátis</span>
+          </div>
+          <div class="order-row total">
+            <span>Total</span>
+            <span class="total-amount">{{ total | currency:'BRL' }}</span>
+          </div>
+        </div>
+        
+        <div class="secure-payment">
+          <i class="icon-lock">🔒</i>
+          <span>Pagamento 100% seguro</span>
+        </div>
+        
+        <button 
+          type="button" 
+          class="btn-finalizar" 
+          (click)="finalizarCompra()"
+          [disabled]="finalizando">
+          <span *ngIf="!finalizando">Confirmar Pedido</span>
+          <span *ngIf="finalizando" class="loading-text">Processando...</span>
+        </button>
+        
+        <button 
+          type="button" 
+          class="btn-voltar" 
+          (click)="voltarParaCarrinho()"
+          [disabled]="finalizando">
+          Voltar para o Carrinho
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,169 @@
+.produto-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+.produto-card:hover {
+  transform: translateY(-4px);
+}
+
+.imagem-container {
+  position: relative;
+  padding-top: 100%; /* Mantém a proporção quadrada */
+  overflow: hidden;
+}
+
+.produto-imagem {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 0.3s;
+}
+
+.produto-imagem.imagem-loading {
+  opacity: 0.5;
+}
+
+.loading-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #666;
+}
+
+.imagem-error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ccc;
+  font-size: 2em;
+}
+
+.produto-card:hover .produto-imagem {
+  opacity: 0.8;
+}
+
+.etiqueta-promocao {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #ff4444;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+.produto-info {
+  padding: 16px;
+}
+
+.produto-titulo {
+  font-size: 1.1em;
+  margin: 0 0 12px 0;
+  color: #333;
+  line-height: 1.4;
+  height: 4.2em;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.produto-titulo a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.produto-titulo a:hover {
+  text-decoration: underline;
+}
+
+.precos {
+  margin: 12px 0;
+}
+
+.preco-atual {
+  color: #2196F3;
+  font-size: 1.5em;
+  font-weight: bold;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.preco-atual .moeda {
+  font-size: 0.8em;
+}
+
+.preco-original {
+  color: #999;
+  text-decoration: line-through;
+  font-size: 0.9em;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.preco-original .moeda {
+  font-size: 0.8em;
+}
+
+.condicoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.condicao, .frete, .parcelamento, .estoque {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  background: #f5f5f5;
+}
+
+.condicao i, .frete i, .parcelamento i, .estoque i {
+  color: #666;
+}
+
+.botao-comprar {
+  width: 100%;
+  padding: 12px;
+  background: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s;
+}
+
+.botao-comprar:hover {
+  background: #1976D2;
+}
+
+.botao-comprar:active {
+  transform: translateY(1px);
+}

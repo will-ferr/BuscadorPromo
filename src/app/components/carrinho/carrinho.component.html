@@ -1,0 +1,108 @@
+<div class="carrinho-page-container">
+  <div class="carrinho-content">
+    <!-- Cabeçalho -->
+    <div class="carrinho-header">
+      <div class="carrinho-title">
+        <h2>Meu <span class="accent">Carrinho</span></h2>
+        <p class="carrinho-subtitle">Confira seus produtos selecionados</p>
+      </div>
+      <button (click)="voltarParaHome()" class="back-button">
+        <i class="icon-back">←</i> Continuar comprando
+      </button>
+    </div>
+
+    <!-- Mensagem de carregamento -->
+    <div *ngIf="carregando" class="mensagem-carregando">
+      <div class="loading-spinner"></div>
+      <p>Carregando seu carrinho...</p>
+    </div>
+
+    <!-- Mensagem de erro -->
+    <div *ngIf="mensagemErro && !carregando" class="mensagem-erro">
+      <p>{{ mensagemErro }}</p>
+      <button (click)="atualizarCarrinho()" class="btn-tentar-novamente">Tentar novamente</button>
+    </div>
+
+    <!-- Carrinho vazio -->
+    <div *ngIf="!carregando && !mensagemErro && produtos.length === 0" class="carrinho-vazio">
+      <div class="empty-cart-icon">🛒</div>
+      <h3>Seu carrinho está vazio</h3>
+      <p>Adicione produtos ao seu carrinho para vê-los aqui</p>
+      <button (click)="voltarParaHome()" class="shop-now-btn">Explorar Promoções</button>
+    </div>
+
+    <!-- Lista de produtos -->
+    <div *ngIf="!carregando && !mensagemErro && produtos.length > 0" class="carrinho-container">
+      <div class="carrinho-items-header">
+        <span class="col product-col">Produto</span>
+        <span class="col price-col">Preço</span>
+        <span class="col qty-col">Quantidade</span>
+        <span class="col subtotal-col">Subtotal</span>
+        <span class="col action-col">Ação</span>
+      </div>
+
+      <div class="carrinho-items-list">
+        <div class="carrinho-item" *ngFor="let item of produtos">
+          <div class="col product-col">
+            <div class="product-info">
+              <img [src]="item.produto.thumbnail" [alt]="item.produto.title" class="carrinho-image">
+              <div class="product-details">
+                <h3>{{ item.produto.title }}</h3>
+                <!-- Removido o vendedor já que não está na interface -->
+              </div>
+            </div>
+          </div>
+          <div class="col price-col">
+            <span class="price">{{ item.produto.price | currency:'BRL' }}</span>
+            <span *ngIf="item.produto.originalPrice" class="original-price">
+              {{ item.produto.originalPrice | currency:'BRL' }}
+            </span>
+          </div>
+          <div class="col qty-col">
+            <div class="quantity-selector">
+              <button (click)="atualizarQuantidade(item, -1)" [disabled]="item.quantidade <= 1">-</button>
+              <span>{{ item.quantidade }}</span>
+              <button (click)="atualizarQuantidade(item, 1)">+</button>
+            </div>
+          </div>
+          <div class="col subtotal-col">
+            {{ item.produto.price * item.quantidade | currency:'BRL' }}
+          </div>
+          <div class="col action-col">
+            <button (click)="removerProduto(item.produto.id)" class="btn-remover" title="Remover item">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resumo do pedido -->
+      <div class="resumo-pedido">
+        <h3>Resumo do Pedido</h3>
+        <div class="resumo-linha">
+          <span>Subtotal</span>
+          <span>{{ total | currency:'BRL' }}</span>
+        </div>
+        <div class="resumo-linha">
+          <span>Frete</span>
+          <span>Grátis</span>
+        </div>
+        <div class="resumo-linha total">
+          <span>Total</span>
+          <span class="valor-total">{{ total | currency:'BRL' }}</span>
+        </div>
+        <div class="acoes">
+          <button (click)="limparCarrinho()" class="btn-limpar">
+            <i class="fas fa-trash"></i> Limpar Carrinho
+          </button>
+          <button class="btn-finalizar" (click)="finalizarCompra()">
+            <i class="fas fa-credit-card"></i> Finalizar Compra
+          </button>
+        </div>
+        <p class="secure-checkout">
+          <i class="fas fa-lock"></i> Pagamento 100% seguro
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
