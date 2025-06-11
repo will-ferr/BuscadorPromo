@@ -1,13 +1,107 @@
+<<<<<<< HEAD
+<div class="home-container">
+  <!-- Banner de Promoção -->
+  <div class="promotion-banner">
+    <div class="banner-content">
+      <h1>Encontre as melhores ofertas</h1>
+      <p>Confira nossos produtos em promoção e economize!</p>
+    </div>
+  </div>
+
+  <!-- Barra de Busca -->
+  <div class="search-container">
+    <div class="search-form">
+      <div class="search-input-group">
+        <input type="text" 
+               formControlName="termoBusca"
+               (keyup.enter)="buscarProdutos()" 
+               placeholder="O que você está procurando?">
+        <svg class="icon" viewBox="0 0 24 24">
+          <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
+      </div>
+      <select formControlName="categoria" class="category-select">
+=======
 <div class="container">
   <div class="search-container">
     <div class="search-form">
       <input type="text" [formControl]="termoBusca" (keyup.enter)="buscarProdutos()" placeholder="Buscar produtos...">
       <select [(ngModel)]="categoriaSelecionada">
+>>>>>>> origin/main
         <option value="">Todas as categorias</option>
         <option *ngFor="let categoria of categorias" [value]="categoria.id">
           {{ categoria.name }}
         </option>
       </select>
+<<<<<<< HEAD
+      <button (click)="buscarProdutos()" class="search-button">
+        <svg class="icon" viewBox="0 0 24 24">
+          <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg> Buscar
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div class="loading-overlay" *ngIf="loading">
+    <div class="loading-spinner">
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-2.5 0-4.5-2-4.5-4.5S9.5 5 12 5 16.5 7 16.5 9.5 14.5 14 12 14z"/>
+      </svg>
+      <p>Carregando produtos...</p>
+    </div>
+  </div>
+
+  <!-- Seção de Produtos -->
+  <section class="section products-section">
+    <div class="section-header">
+      <h2>Produtos</h2>
+      <div class="filter-buttons">
+        <button (click)="ordenarPor('preco')" class="filter-btn">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M16 17h2l-3-3 3-3v2L15 3H9v12h2l-3 3 3 3v-2l-3 3v2h10v-2l-3-3z"/>
+          </svg> Menor preço
+        </button>
+        <button (click)="ordenarPor('relevancia')" class="filter-btn active">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm14 6h-3v3h-2v-3H5v-2h3V9h2v3h6v2z"/>
+          </svg> Relevância
+        </button>
+      </div>
+    </div>
+    <div class="products-grid">
+      <app-produto-card
+        *ngFor="let produto of produtos"
+        [produto]="produto"
+        (adicionarAoCarrinho)="adicionarAoCarrinho($event)">
+      </app-produto-card>
+    </div>
+    <app-paginacao
+      [paginaAtual]="paginacao.paginaAtual"
+      [totalPaginas]="paginacao.totalPaginas"
+      (mudarPagina)="mudarPagina($event)">
+    </app-paginacao>
+  </section>
+
+  <!-- Seção de Sugestões -->
+  <section class="section suggestions-section" *ngIf="sugestoes.length > 0">
+    <div class="section-header">
+      <h2>Sugestões</h2>
+      <a href="#" class="see-all">Ver todas
+        <svg class="icon" viewBox="0 0 24 24">
+          <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+        </svg>
+      </a>
+    </div>
+    <div class="products-slider">
+      <app-produto-card
+        *ngFor="let produto of sugestoes"
+        [produto]="produto"
+        (adicionarAoCarrinho)="adicionarAoCarrinho($event)">
+      </app-produto-card>
+    </div>
+  </section>
+=======
       <button (click)="buscarProdutos()">Buscar</button>
     </div>
   </div>
@@ -98,4 +192,5 @@
   <div class="no-results" *ngIf="produtos.length === 0 && termoBusca.value">
     <p>Nenhum produto encontrado para a busca "{{ termoBusca.value }}". Veja algumas sugestões abaixo:</p>
   </div>
+>>>>>>> origin/main
 </div>

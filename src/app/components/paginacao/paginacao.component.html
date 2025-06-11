@@ -1,0 +1,37 @@
+<div class="paginacao-container">
+  <button 
+    class="paginacao-btn"
+    [disabled]="!paginaAtual || paginaAtual <= 1"
+    (click)="irParaPagina(1)"
+    title="Primeira página">
+    Primeira
+  </button>
+  
+  <button 
+    class="paginacao-btn"
+    [disabled]="!paginaAtual || paginaAtual <= 1"
+    (click)="paginaAnterior()"
+    title="Página anterior">
+    Anterior
+  </button>
+
+  <span class="pagina-atual">
+    Página {{ paginaAtual }} de {{ totalPaginas }}
+  </span>
+
+  <button 
+    class="paginacao-btn"
+    [disabled]="!paginaAtual || paginaAtual >= totalPaginas"
+    (click)="proximaPagina()"
+    title="Próxima página">
+    Próxima
+  </button>
+
+  <button 
+    class="paginacao-btn"
+    [disabled]="!paginaAtual || paginaAtual >= totalPaginas"
+    (click)="irParaUltimaPagina()"
+    title="Última página">
+    Última
+  </button>
+</div>
