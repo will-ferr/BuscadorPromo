@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
+<<<<<<< HEAD
 import { map, catchError, switchMap } from 'rxjs/operators';
 
 export interface Usuario {
@@ -8,6 +9,14 @@ export interface Usuario {
   nome: string;
   email: string;
   senha: string;
+=======
+import { map } from 'rxjs/operators';
+
+export interface Usuario {
+  id: string;
+  nome: string;
+  email: string;
+>>>>>>> origin/main
   token: string;
 }
 
@@ -22,7 +31,11 @@ export interface UsuarioCadastro {
 })
 export class AutenticaçãoService {
   private usuarioSubject = new BehaviorSubject<Usuario | null>(null);
+<<<<<<< HEAD
   private apiUrl = 'http://localhost:3000';
+=======
+  private apiUrl = 'https://api-auth-exemplo.com'; // Substituir pela URL real da API
+>>>>>>> origin/main
 
   constructor(private http: HttpClient) { }
 
@@ -31,6 +44,7 @@ export class AutenticaçãoService {
   }
 
   login(email: string, senha: string): Observable<Usuario> {
+<<<<<<< HEAD
     return this.http.post<Usuario>(`${this.apiUrl}/usuarios/login`, { email, senha }).pipe(
       map(usuario => {
         if (usuario && usuario.email === email && usuario.senha === senha) {
@@ -40,11 +54,19 @@ export class AutenticaçãoService {
           return usuario;
         }
         throw new Error('Senha incorreta');
+=======
+    return this.http.post<Usuario>(`${this.apiUrl}/login`, { email, senha }).pipe(
+      map(usuario => {
+        this.usuarioSubject.next(usuario);
+        localStorage.setItem('usuario', JSON.stringify(usuario));
+        return usuario;
+>>>>>>> origin/main
       })
     );
   }
 
   cadastrar(usuario: UsuarioCadastro): Observable<Usuario> {
+<<<<<<< HEAD
     // Primeiro verificar se o email já existe
     return this.http.get<Usuario[]>(`${this.apiUrl}/usuarios?email=${usuario.email}`).pipe(
       map(resultados => {
@@ -73,10 +95,18 @@ export class AutenticaçãoService {
             return novoUsuario;
           })
         );
+=======
+    return this.http.post<Usuario>(`${this.apiUrl}/cadastro`, usuario).pipe(
+      map(usuario => {
+        this.usuarioSubject.next(usuario);
+        localStorage.setItem('usuario', JSON.stringify(usuario));
+        return usuario;
+>>>>>>> origin/main
       })
     );
   }
 
+<<<<<<< HEAD
   private criptografarSenha(senha: string): string {
     // Simples criptografia para demonstração - em produção use uma biblioteca de criptografia
     return btoa(senha + 'salt-' + Date.now());
@@ -87,6 +117,8 @@ export class AutenticaçãoService {
     return atob(senhaCriptografada).split('salt-')[0];
   }
 
+=======
+>>>>>>> origin/main
   logout(): void {
     this.usuarioSubject.next(null);
     localStorage.removeItem('usuario');
@@ -95,14 +127,21 @@ export class AutenticaçãoService {
   verificarAutenticacao(): boolean {
     const usuario = localStorage.getItem('usuario');
     if (usuario) {
+<<<<<<< HEAD
       const usuarioObj = JSON.parse(usuario);
       this.usuarioSubject.next(usuarioObj);
+=======
+      this.usuarioSubject.next(JSON.parse(usuario));
+>>>>>>> origin/main
       return true;
     }
     return false;
   }
+<<<<<<< HEAD
 
   getUsuarioLogado(): Usuario | null {
     return this.usuarioSubject.value;
   }
+=======
+>>>>>>> origin/main
 }

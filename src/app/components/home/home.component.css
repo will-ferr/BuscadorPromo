@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Ícones */
 .icon {
   width: 20px;
@@ -15,6 +16,8 @@
   pointer-events: none;
 }
 
+=======
+>>>>>>> origin/main
 /* Container principal */
 .container {
   max-width: 1200px;
@@ -321,7 +324,17 @@
 /* Sem resultados */
 .no-results {
   text-align: center;
+<<<<<<< HEAD
   margin: 40px 0;
+=======
+  padding: 3rem 2rem;
+  background: var(--card-color);
+  border-radius: 12px;
+  margin: 2rem 1rem;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.5s ease-out;
+>>>>>>> origin/main
 }
 
 .no-results p {
@@ -341,6 +354,7 @@
   opacity: 0.7;
 }
 
+<<<<<<< HEAD
 .loading-spinner i {
   font-size: 32px;
   margin-bottom: 10px;
@@ -417,6 +431,66 @@
 .no-content i {
   font-size: 2em;
   margin-bottom: 12px;
+=======
+/* Estilos para telas menores */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .search-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-form input,
+  .search-form select {
+    min-width: 100%;
+  }
+  
+  .search-form button {
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Estilo para o botão de adicionar ao carrinho */
+.product-card button {
+  background: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 0 0 8px 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--transition);
+  font-family: inherit;
+  padding: 0.8rem;
+}
+
+.product-card button:hover {
+  background: #27ae60;
+  transform: translateY(-1px);
+}
+
+.product-card button:hover {
+  background: #27ae60;
+}
+
+.no-results {
+  text-align: center;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.no-results p {
+  color: #666;
+  font-size: 1.1rem;
+>>>>>>> origin/main
 }
 
 /* Animação para destacar os produtos */

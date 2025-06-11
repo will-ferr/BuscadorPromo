@@ -1,16 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Produto } from './mercado-livre.service';
 import { AutenticaçãoService } from './autenticação.service';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
-export interface ItemCarrinho {
-  id: number;
-  produto: Produto;
-  usuarioId: number;
-  quantidade: number;
-}
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 export interface ItemCarrinho {
   id: number;
@@ -37,8 +30,20 @@ export class CarrinhoService {
     const usuario = this.autenticacaoService.getUsuarioLogado();
     if (usuario) {
       this.http.get<ItemCarrinho[]>(`${this.apiUrl}/itensCarrinho?usuarioId=${usuario.id}`)
-        .subscribe(itens => {
-          this.carrinho = itens;
+        .pipe(
+          catchError((error: HttpErrorResponse) => {
+            console.error('Erro ao carregar carrinho:', error);
+            return of([] as ItemCarrinho[]);
+          })
+        )
+        .subscribe({
+          next: (itens: ItemCarrinho[] | null) => {
+            this.carrinho = itens || [];
+          },
+          error: (error: Error) => {
+            console.error('Erro na subscrição do carrinho:', error);
+            this.carrinho = [];
+          }
         });
     }
   }
@@ -89,18 +94,28 @@ export class CarrinhoService {
       return this.http.delete<void>(`${this.apiUrl}/itensCarrinho/${item.id}`).pipe(
         map(() => {
           this.carrinho = this.carrinho.filter(i => i.id !== item.id);
+          return undefined;
+        }),
+        catchError((error: HttpErrorResponse) => {
+          console.error('Erro ao remover produto do carrinho:', error);
+          return throwError(() => new Error('Não foi possível remover o produto do carrinho'));
         })
       );
     }
-    return new Observable<void>(subscriber => subscriber.next());
+    return of(undefined);
   }
 
   getCarrinho(): ItemCarrinho[] {
-    const usuario = this.autenticacaoService.getUsuarioLogado();
-    if (!usuario) {
+    try {
+      const usuario = this.autenticacaoService.getUsuarioLogado();
+      if (!usuario) {
+        return [];
+      }
+      return this.carrinho.filter(item => item && item.usuarioId === usuario.id);
+    } catch (error) {
+      console.error('Erro ao obter carrinho:', error);
       return [];
     }
-    return this.carrinho.filter(item => item.usuarioId === usuario.id);
   }
 
   limparCarrinho(): Observable<void> {
@@ -109,19 +124,31 @@ export class CarrinhoService {
       return this.http.delete<void>(`${this.apiUrl}/itensCarrinho?usuarioId=${usuario.id}`).pipe(
         map(() => {
           this.carrinho = [];
+          return undefined;
+        }),
+        catchError((error: HttpErrorResponse) => {
+          console.error('Erro ao limpar carrinho:', error);
+          return throwError(() => new Error('Não foi possível limpar o carrinho'));
         })
       );
     }
-    return new Observable<void>(subscriber => subscriber.next());
+    return of(undefined);
   }
 
   getTotal(): number {
-    if (!this.carrinho || this.carrinho.length === 0) return 0;
-    
-    return this.carrinho.reduce((total, item) => {
-      if (typeof item.produto.price !== 'number') return total;
-      return total + (item.produto.price * item.quantidade);
-    }, 0);
+    try {
+      if (!this.carrinho || this.carrinho.length === 0) return 0;
+      
+      return this.carrinho.reduce((total, item) => {
+        if (!item || !item.produto || typeof item.produto.price !== 'number' || typeof item.quantidade !== 'number') {
+          return total;
+        }
+        return total + (item.produto.price * item.quantidade);
+      }, 0);
+    } catch (error) {
+      console.error('Erro ao calcular total do carrinho:', error);
+      return 0;
+    }
   }
 
   atualizarItemCarrinho(itemAtualizado: ItemCarrinho): Observable<ItemCarrinho> {

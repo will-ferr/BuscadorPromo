@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { CarrinhoService, ItemCarrinho } from '../../services/carrinho.service';
 import { AutenticaçãoService } from '../../services/autenticação.service';
-import { catchError, of, switchMap } from 'rxjs';
+import { catchError, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({

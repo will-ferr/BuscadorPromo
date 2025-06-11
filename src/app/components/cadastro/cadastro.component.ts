@@ -30,6 +30,7 @@ export class CadastroComponent implements OnInit {
   }
 
   cadastrar(): void {
+<<<<<<< HEAD
     if (this.nome.trim() === '') {
       this.mensagemErro = 'Nome é obrigatório';
       return;
@@ -46,19 +47,27 @@ export class CadastroComponent implements OnInit {
       this.mensagemErro = 'Senha deve ter pelo menos 6 caracteres';
       return;
     }
+=======
+>>>>>>> origin/main
     if (this.senha !== this.confirmarSenha) {
       this.mensagemErro = 'As senhas não coincidem';
       return;
     }
 
     const usuario: UsuarioCadastro = {
+<<<<<<< HEAD
       nome: this.nome.trim(),
       email: this.email.trim(),
+=======
+      nome: this.nome,
+      email: this.email,
+>>>>>>> origin/main
       senha: this.senha
     };
 
     this.autenticacaoService.cadastrar(usuario)
       .subscribe(
+<<<<<<< HEAD
         (usuario) => {
           this.mensagemErro = '';
           this.router.navigate(['/login'], {
@@ -72,6 +81,13 @@ export class CadastroComponent implements OnInit {
           if (error.error === 'Email já cadastrado') {
             this.mensagemErro = 'Este email já está cadastrado';
           }
+=======
+        () => {
+          this.router.navigate(['/login']);
+        },
+        (error: any) => {
+          this.mensagemErro = 'Erro ao cadastrar usuário';
+>>>>>>> origin/main
         }
       );
   }
